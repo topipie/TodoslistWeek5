@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, StyleSheet, TextInput, Button } from "react-native";
+import { View, Text, StyleSheet,} from "react-native";
+import { Button, TextInput } from "react-native-paper";
 
 interface Props {
   input: string;
@@ -15,8 +16,15 @@ const TodoInput: React.FC<Props> = ({ input, setInput, addTask }) => {
         value={input}
         onChangeText={setInput}
         placeholder="Add task"
+        mode="outlined"
       />
-      <Button title="Save" onPress={addTask} />
+      <Button
+      style={styles.button}
+      mode="contained"
+      onPress={addTask}  
+      >
+        Save
+      </Button>
     </View>
   );
 };
@@ -35,6 +43,11 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     padding: 8,
     marginRight: 8,
+  },
+  button: {  
+    backgroundColor: '#2d00f8',
+    paddingVertical: 20,
+    paddingHorizontal: 10,
   },
 });
 

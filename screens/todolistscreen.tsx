@@ -1,33 +1,21 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet} from 'react-native';
-import useTasks from '../hooks/useTasks';
+import useTodos from '../hooks/useTodos';
 
 import TodoInput from '../components/todoinput';
 import TodoList from '../components/todolist';
 
 
 const TodoScreen: React.FC = () => {
-const { tasks, setTasks } = useTasks();
+const { tasks, addTask, toggleTask, deleteTask } = useTodos();
 const [input, setInput] = useState('');
 
-
-const addTask = () => {
+const handleAddTask = () => {
     if (input.trim()) {
-        setTasks(prev => [
-            ...prev, 
-            { id: Date.now().toString(), name: input.trim(), done: false },
-        ]);
+        addTask(input.trim());
         setInput('');
     }
 };
-
-const toggleTask = (id: string) => {
-    setTasks(prev => 
-        prev.map(task =>
-            task.id === id ? { ...task, done: !task.done } : task
-        )
-    );
-}
 
 return (
   <View style={styles.container}>
@@ -36,12 +24,13 @@ return (
  <TodoInput 
     input={input} 
     setInput={setInput} 
-    addTask={addTask} 
+    addTask={handleAddTask} 
     />
 
 <TodoList    
     items={tasks} 
     toggleItem={toggleTask} 
+    deleteTask={deleteTask}
     />
 
 </View>

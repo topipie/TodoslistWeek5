@@ -11,9 +11,10 @@ interface Item {
 interface Props {
   items: Item[];
   toggleItem: (id: string) => void;
+  deleteTask: (id: string) => void;
 }
 
-const TodoList: React.FC<Props> = ({ items, toggleItem }) => {
+const TodoList: React.FC<Props> = ({ items, toggleItem, deleteTask }) => {
   return (
     <SwipeListView
       data={items}
@@ -27,13 +28,22 @@ const TodoList: React.FC<Props> = ({ items, toggleItem }) => {
         </View>
         </Pressable>
     )}
-    renderHiddenItem={() => <View style={styles.rowBack} />}
+     renderHiddenItem={({item}) => (
+        <View style={styles.rowBack}>
+          <Pressable
+          style= {styles.deleteButton}
+          onPress={() => deleteTask(item.id)}
+          >
+       <Text style={styles.deleteText}>Delete</Text> 
+      </Pressable>
+    </View>
+  )}
     rightOpenValue={-75}
     disableRightSwipe
-    disableLeftSwipe
+    leftOpenValue={0}
   />
 );
-}
+};
 
 const styles = StyleSheet.create({
   rowFront: {
@@ -47,7 +57,18 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'flex-end',
     justifyContent: 'center',
-    paddingRight: 20
+    paddingRight: 0
+  },
+  deleteButton: {
+    backgroundColor: '#e53935',
+    padding: 10,
+    borderRadius: 5,
+    },
+  deleteText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 14,
+    padding: 10,
   },
 });
 
